@@ -1,41 +1,53 @@
 import React from 'react';
-import logo from '../assets/holberton-logo.jpg';
 import { StyleSheet, css } from 'aphrodite';
+import logo from '../assets/holberton-logo.jpg';
+import AppContext from '../App/AppContext';
 
-function Header() {
-  return (
-    <header className={css(styles.header)}>
-      <img className={css(styles.logo)} src={logo} alt='logo' />
-      <h1 className={css(styles.title)}>School dashboard</h1>
-    </header>
-  );
+class Header extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		const { user, logOut } = this.context;
+		return (
+			<header className={css(styles.Header)}>
+				<img src={logo} className={css(styles.HeaderLogo)} alt="logo" />
+				<h1>School dashboard</h1>
+				{
+					user.isLoggedIn && (
+						<h2 id='logoutSection'>
+							Welcome <b>{user.email}</b>
+							<span onClick={logOut} className={css(styles.logOutSpanSection)}>
+								(logout)
+							</span>
+						</h2>
+					)
+				}
+			</header>
+		);
+	}
 }
 
-const screenSize = {
-  small: '@media screen and (max-width: 900px)',
-};
+Header.contextType = AppContext;
 
 const styles = StyleSheet.create({
-  header: {
-    display: 'flex',
-    color: '#e0344a',
-    alignItems: 'center',
-    borderBottom: 'thick solid #e0344a',
-    width: '100%',
-    position: 'fixed',
-  },
-  logo: {
-    width: '144px',
-    [screenSize.small]: {
-      width: '240px',
-    },
-  },
-  title: {
-    margin: 0,
-    [screenSize.small]: {
-      fontSize: '40px',
-    },
-  },
+	Header: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+		color: '#e1354b',
+		borderBottom: '4px solid #e1354b'
+	},
+
+	HeaderLogo: {
+		width: '20%'
+	},
+
+	logOutSpanSection: {
+		cursor: 'pointer',
+		fontStyle: 'italic'
+	},
 });
 
 export default Header;
