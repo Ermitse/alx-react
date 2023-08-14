@@ -1,13 +1,23 @@
-import React from 'react';
+import  React from 'react';
 import { getFullYear, getFooterCopy } from '../utils/utils';
+import AppContext from "../App/AppContext";
 
 function Footer() {
   return (
-    <footer>
-      <p>
-        Copyright {getFullYear()} - {getFooterCopy(true)}
-      </p>
-    </footer>
+    <AppContext.Consumer>
+      {
+        (context) => {
+          return (
+            <footer className="Footer">
+              <p>
+                <i>Copyright {getFullYear()} - {getFooterCopy()}</i>
+              </p>
+              {context.user.isLoggedIn && <a href='#'>Contact us</a>}
+            </footer>
+          );
+        }
+      }
+    </AppContext.Consumer>
   );
 }
 
